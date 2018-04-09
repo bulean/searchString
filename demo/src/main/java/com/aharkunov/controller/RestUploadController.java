@@ -1,5 +1,6 @@
 package com.aharkunov.controller;
 
+import com.aharkunov.util.Parser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
@@ -21,7 +22,8 @@ public class RestUploadController {
     private final Logger logger = LoggerFactory.getLogger(RestUploadController.class);
 
     //Save the uploaded file to this folder
-    private static String UPLOADED_FOLDER = "F://temp//";
+    private static String UPLOADED_FOLDER = System.getProperty("java.io.tmpdir") + "/";
+
 
 
     @PostMapping("/api/upload")
@@ -34,13 +36,15 @@ public class RestUploadController {
             return new ResponseEntity("please select a file!", HttpStatus.OK);
         }
 
-        /*try {
+        try {
 
             saveUploadedFile(uploadfile);
 
+            Parser.parseFile(UPLOADED_FOLDER + uploadfile.getOriginalFilename());
+
         } catch (IOException e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }*/
+        }
 
         return new ResponseEntity("Successfully uploaded - " +
                 uploadfile.getOriginalFilename(), new HttpHeaders(), HttpStatus.OK);

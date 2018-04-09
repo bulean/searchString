@@ -5,28 +5,29 @@ package com.aharkunov.model;
  */
 public class Line {
 
-    int lineNumber;
-    String line;
-
-    public int getLineNumber() {
-        return lineNumber;
-    }
-
-    public void setLineNumber(int lineNumber) {
-        this.lineNumber = lineNumber;
-    }
+    private int lineNumber;
+    private String line;
+    private String fileName;
 
     public String getLine() {
         return line;
     }
 
-    public void setLine(String line) {
-        this.line = line;
-    }
-
     public Line(int id, String line, String fileName) {
         this.lineNumber = id;
         this.line = line;
+        this.fileName = fileName;
+
+        System.out.println("fileName =" + fileName);
+    }
+
+
+    public int getLineNumber() {
+        return lineNumber;
+    }
+
+    public String getFileName() {
+        return fileName;
     }
 
     @Override
@@ -34,6 +35,7 @@ public class Line {
         return "Line{" +
                 "lineNumber=" + lineNumber +
                 ", line='" + line + '\'' +
+                ", fileName='" + fileName + '\'' +
                 '}';
     }
 
@@ -42,16 +44,16 @@ public class Line {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Line line1 = (Line) o;
+        Line line = (Line) o;
 
-        if (lineNumber != line1.lineNumber) return false;
-        return line.equals(line1.line);
+        if (lineNumber != line.lineNumber) return false;
+        return fileName != null ? fileName.equals(line.fileName) : line.fileName == null;
     }
 
     @Override
     public int hashCode() {
         int result = lineNumber;
-        result = 31 * result + line.hashCode();
+        result = 31 * result + (fileName != null ? fileName.hashCode() : 0);
         return result;
     }
 }

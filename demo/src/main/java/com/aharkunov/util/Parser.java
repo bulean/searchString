@@ -21,13 +21,21 @@ public class Parser {
      */
     public static void parseFile(String pFilePath) {
 
-        int seqLineNumber = 1;
-
         try {
+
+            int seqLineNumber = 1;
 
             List<String> listLines = Files.readAllLines(Paths.get(pFilePath));
 
             for (String line : listLines) {
+
+
+                // пустные строки игнорируем
+                if (line.trim().isEmpty())
+                {
+                    seqLineNumber++;
+                    continue;
+                }
 
                 // добавим строку в индекс
                 Index.getListLines().add(new Line(seqLineNumber, line, pFilePath));
@@ -39,16 +47,13 @@ public class Parser {
                     if (!word.trim().equals("")) {
 
                         //свяжем слово с координатой где оно встречается
-                        Index.add(word, new Coordinate(wordPos, Index.getListLines().get(Index.getListLines().size() - 1), pFilePath));
+                        Index.add(word, new Coordinate(wordPos, Index.getListLines().get(Index.getListLines().size() - 1)));
                         wordPos++;
                     }
                 }
 
                 seqLineNumber++;
             }
-
-            Index.printIndex();
-
 
         } catch (IOException e) {
             e.printStackTrace();
